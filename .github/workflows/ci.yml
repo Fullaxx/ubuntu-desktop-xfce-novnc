@@ -16,7 +16,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 30
 
     # GITHUB_TOKEN is read-only by default in this repo; pushing to ghcr.io needs packages: write
