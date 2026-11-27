@@ -13,7 +13,7 @@ docker pull ghcr.io/fullaxx/ubuntu-desktop-xfce-novnc
 
 docker build -t="ghcr.io/fullaxx/ubuntu-desktop-xfce-novnc" https://github.com/Fullaxx/ubuntu-desktop-xfce-novnc.git
 ```
-`:latest` and `:26.04` are the same image. It is rebuilt at every push to `master`.
+`:latest`, `:26.04` and `:resolute` are the same image. It is rebuilt at every push to `master`.
 
 ## Connect with a web browser
 Run the image on localhost port 8080, then browse to http://127.0.0.1:8080/
