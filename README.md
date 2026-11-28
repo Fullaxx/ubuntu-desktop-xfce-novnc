@@ -20,7 +20,7 @@ Run the image on localhost port 8080, then browse to http://127.0.0.1:8080/
 ```
 docker run -d -p 127.0.0.1:8080:8080 ghcr.io/fullaxx/ubuntu-desktop-xfce-novnc
 ```
-noVNC connects by itself and resizes the desktop to fit the browser window.
+noVNC connects by itself and resizes the desktop to fit the browser window, unless `VNCRESIZE='0'` keeps its size ([Desktop Options](#desktop-options)).
 
 ## noVNC Options
 Optional: Set Password Authentication (the browser asks for it) \
@@ -51,8 +51,9 @@ Everything in ubuntu-desktop-xfce's README works the same here: \
 [Extra privileges](https://github.com/Fullaxx/ubuntu-desktop-xfce/blob/master/PRIVILEGES.md) /
 [Troubleshooting](https://github.com/Fullaxx/ubuntu-desktop-xfce/tree/master/troubleshooting)
 
-Three of them work a little differently behind noVNC:
-- `VNCRES` is only the size the desktop starts with: noVNC resizes it to the browser window.
+Four of them work a little differently behind noVNC:
+- `VNCRES` is only the size the desktop starts with: noVNC resizes it to the browser window, unless `VNCRESIZE='0'`.
+- `VNCRESIZE='0'` keeps the desktop at `VNCRES`: TigerVNC refuses noVNC's resize requests, and noVNC shows the desktop at its own size, with scrollbars when the window is smaller. To have noVNC scale it to the window instead, browse to http://127.0.0.1:8080/vnc.html?autoconnect=1&resize=scale (http://127.0.0.1:8080/ asks for remote resizing at every visit, overriding a Scaling mode saved in noVNC's settings).
 - `VNCPORT` moves the VNC server, which only listens on localhost, so it only matters with `--network=host`. noVNC follows it, and stays on port 8080.
 - `INPUT_METHOD` installs fcitx5 at the container's first start, before the desktop starts, so the desktop comes up about half a minute after `docker run` instead of 3 seconds.
   noVNC's page loads right away, but says "Failed to connect to server" until then: click Connect once `docker logs` shows `Input method: pinyin (fcitx5; Ctrl+Space switches)` (with your input methods). \
@@ -74,6 +75,10 @@ docker run -d -p 127.0.0.1:8080:8080 -e VNCPASS='vncpass' ghcr.io/fullaxx/ubuntu
 Run the image with Read-Write and Read-Only password (Using R/O pass requires R/W pass)
 ```
 docker run -d -p 127.0.0.1:8080:8080 -e VNCPASS='vncpass' -e VNCPASSRO='readonly' ghcr.io/fullaxx/ubuntu-desktop-xfce-novnc
+```
+Run the image with a desktop that keeps its size; noVNC scales it to the browser window at http://127.0.0.1:8080/vnc.html?autoconnect=1&resize=scale
+```
+docker run -d -p 127.0.0.1:8080:8080 -e VNCRESIZE='0' ghcr.io/fullaxx/ubuntu-desktop-xfce-novnc
 ```
 Run the image with HTTPS, using the certificate novnc.pem found in /tmp/cert, then browse to https://127.0.0.1:8080/
 ```
